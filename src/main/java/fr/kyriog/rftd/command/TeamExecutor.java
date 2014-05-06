@@ -2,8 +2,6 @@ package fr.kyriog.rftd.command;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
@@ -13,15 +11,9 @@ import fr.kyriog.rftd.RftdHelper;
 import fr.kyriog.rftd.RftdLogger;
 import fr.kyriog.rftd.RftdLogger.Level;
 
-public class TeamExecutor implements CommandExecutor {
+public class TeamExecutor extends BaseAdminExecutor {
 	@Override
-	public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
-		if(!commandSender.isOp()) {
-			String msg = "Vous n'avez pas accès à cette commande.";
-			commandSender.sendMessage(ChatColor.RED + msg);
-			return true;
-		}
-
+	public boolean onCommand(CommandSender commandSender, String[] args) {
 		if(args.length < 1)
 			return false;
 
