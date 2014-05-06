@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.scoreboard.Scoreboard;
 
 public final class RftdHelper {
@@ -28,6 +30,31 @@ public final class RftdHelper {
 		}
 
 		return map.get(color);
+	}
+
+	public static String blockLocationToString(Location location) {
+		StringBuilder stringLocation = new StringBuilder();
+
+		stringLocation.append(location.getWorld().getName() + ":");
+		stringLocation.append(location.getBlockX() + ":");
+		stringLocation.append(location.getBlockY() + ":");
+		stringLocation.append(location.getBlockZ());
+
+		return stringLocation.toString();
+	}
+
+	public static Location stringToBlockLocation(String stringLocation) {
+		String[] locationArray = stringLocation.split(":");
+
+		World world = Bukkit.getWorld(locationArray[0]);
+		if(world == null)
+			return null;
+
+		int x = Integer.parseInt(locationArray[1]);
+		int y = Integer.parseInt(locationArray[2]);
+		int z = Integer.parseInt(locationArray[3]);
+
+		return new Location(world, x, y, z);
 	}
 
 	private RftdHelper() {}
