@@ -1,3 +1,7 @@
 name: Race For The Dragon
 main: fr.kyriog.rftd.RftdPlugin
 version: 0.0.1-SNAPSHOT
+commands:
+  team:
+    usage: "Usage: /team <add|join>"
+    description: Easily manage teams for RFTD
