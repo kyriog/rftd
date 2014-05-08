@@ -13,6 +13,8 @@ public class RftdPlugin extends JavaPlugin {
 	public void onEnable() {
 		RftdController controller = new RftdController(this);
 
+		controller.onEnable();
+
 		getCommand("egg").setExecutor(new EggExecutor(controller));
 		getCommand("start").setExecutor(new StartExecutor(controller));
 		getCommand("team").setExecutor(new TeamExecutor());

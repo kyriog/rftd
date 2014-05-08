@@ -2,6 +2,7 @@ package fr.kyriog.rftd;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -32,6 +33,13 @@ public class RftdController {
 		return starting;
 	}
 
+	public void onEnable() {
+		for(World world : Bukkit.getWorlds()) {
+			world.setFullTime(6000);
+			world.setGameRuleValue("doDaylightCycle", "false");
+		}
+	}
+
 	public void start() {
 		playing = true;
 		starting = true;
@@ -50,6 +58,11 @@ public class RftdController {
 		starting = false;
 		task.cancel();
 		RftdHelper.canEveryoneWalk(true);
+
+		for(World world : Bukkit.getWorlds()) {
+			world.setFullTime(0);
+			world.setGameRuleValue("doDaylightCycle", "true");
+		}
 	}
 
 	private class StartTimer implements Runnable {
