@@ -6,9 +6,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.scoreboard.Scoreboard;
 
 public final class RftdHelper {
+	public final static float DEFAULT_WALKSPEED = (float) 0.2;
+
 	public static Scoreboard getScoreboard() {
 		return Bukkit.getScoreboardManager().getMainScoreboard();
 	}
@@ -55,6 +59,22 @@ public final class RftdHelper {
 		int z = Integer.parseInt(locationArray[3]);
 
 		return new Location(world, x, y, z);
+	}
+
+	public static void potionEveryone(PotionEffect... effects) {
+		Player[] players = Bukkit.getOnlinePlayers();
+		for(Player player : players) {
+			for(PotionEffect effect : effects)
+				player.addPotionEffect(effect);
+		}
+	}
+
+	public static void canEveryoneWalk(boolean walk) {
+		float walkspeed = walk ? RftdHelper.DEFAULT_WALKSPEED : 0;
+		Player[] players = Bukkit.getOnlinePlayers();
+		for(Player player : players) {
+			player.setWalkSpeed(walkspeed);
+		}
 	}
 
 	private RftdHelper() {}
