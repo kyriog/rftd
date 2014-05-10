@@ -34,10 +34,10 @@ public class PlayerListener implements Listener {
 	public void onPlayerMove(PlayerMoveEvent e) {
 		if(controller.isStarting()) {
 			boolean testX = e.getFrom().getX() != e.getTo().getX();
-			boolean testY = e.getFrom().getY() != e.getTo().getY();
 			boolean testZ = e.getFrom().getZ() != e.getTo().getZ();
-			if(testX || testY || testZ) {
+			if(testX || testZ) {
 				Location newLocation = e.getFrom();
+				newLocation.setY(e.getTo().getY());
 				newLocation.setDirection(e.getTo().getDirection());
 				e.getPlayer().teleport(newLocation);
 			}

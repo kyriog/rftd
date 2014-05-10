@@ -4,8 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
 
 import fr.kyriog.rftd.RftdLogger.Level;
@@ -47,8 +45,6 @@ public class RftdController {
 		String msg = "Tout le monde est prêt ? On ne bouge plus !";
 		RftdLogger.broadcast(Level.SUCCESS, msg);
 
-		PotionEffect potion = new PotionEffect(PotionEffectType.JUMP, 120, 1000, true);
-		RftdHelper.potionEveryone(potion);
 		RftdHelper.canEveryoneWalk(false);
 
 		task = Bukkit.getScheduler().runTaskTimer(plugin, new StartTimer(), 20, 20);
