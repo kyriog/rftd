@@ -6,6 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import fr.kyriog.rftd.command.EggExecutor;
 import fr.kyriog.rftd.command.StartExecutor;
 import fr.kyriog.rftd.command.TeamExecutor;
+import fr.kyriog.rftd.listener.EntityListener;
 import fr.kyriog.rftd.listener.PlayerListener;
 
 public class RftdPlugin extends JavaPlugin {
@@ -20,6 +21,7 @@ public class RftdPlugin extends JavaPlugin {
 		getCommand("team").setExecutor(new TeamExecutor());
 
 		PluginManager pm = getServer().getPluginManager();
+		pm.registerEvents(new EntityListener(controller), this);
 		pm.registerEvents(new PlayerListener(controller), this);
 	}
 }

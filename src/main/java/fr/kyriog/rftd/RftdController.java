@@ -1,6 +1,7 @@
 package fr.kyriog.rftd;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -46,6 +47,7 @@ public class RftdController {
 		RftdLogger.broadcast(Level.SUCCESS, msg);
 
 		RftdHelper.canEveryoneWalk(false);
+		RftdHelper.setEveryoneGameMode(GameMode.SURVIVAL);
 
 		task = Bukkit.getScheduler().runTaskTimer(plugin, new StartTimer(), 20, 20);
 	}

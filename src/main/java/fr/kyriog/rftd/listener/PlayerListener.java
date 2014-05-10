@@ -1,7 +1,9 @@
 package fr.kyriog.rftd.listener;
 
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -26,8 +28,13 @@ public class PlayerListener implements Listener {
 
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent e) {
+		Player player = e.getPlayer();
+
 		float walkSpeed = controller.isStarting() ? 0 : RftdHelper.DEFAULT_WALKSPEED;
-		e.getPlayer().setWalkSpeed(walkSpeed);
+		player.setWalkSpeed(walkSpeed);
+
+		GameMode gamemode = controller.isPlaying() ? GameMode.SURVIVAL : GameMode.CREATIVE;
+		player.setGameMode(gamemode);
 	}
 
 	@EventHandler
