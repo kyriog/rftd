@@ -89,6 +89,15 @@ public class RftdController {
 		starting = false;
 		task.cancel();
 
+		Player[] players = Bukkit.getOnlinePlayers();
+		for(Player player : players) {
+			player.setHealth(20);
+			player.setFoodLevel(20);
+			player.setSaturation(20);
+			player.setExp(0);
+			player.setLevel(0);
+		}
+
 		RftdHelper.canEveryoneWalk(true);
 		RftdHelper.setEveryoneGameMode(GameMode.SURVIVAL);
 
