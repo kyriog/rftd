@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scheduler.BukkitTask;
 
 import fr.kyriog.rftd.RftdLogger.Level;
@@ -70,6 +71,16 @@ public class RftdController {
 
 		RftdHelper.canEveryoneWalk(false);
 		RftdHelper.setEveryoneGameMode(GameMode.ADVENTURE);
+
+		Player[] players = Bukkit.getOnlinePlayers();
+		for(Player player : players) {
+			PlayerInventory inventory = player.getInventory();
+			inventory.clear();
+			inventory.setHelmet(null);
+			inventory.setChestplate(null);
+			inventory.setLeggings(null);
+			inventory.setBoots(null);
+		}
 
 		task = Bukkit.getScheduler().runTaskTimer(plugin, new StartTimer(), 20, 20);
 	}
