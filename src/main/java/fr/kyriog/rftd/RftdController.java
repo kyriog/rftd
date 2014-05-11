@@ -141,7 +141,7 @@ public class RftdController {
 
 		StringBuilder msg = new StringBuilder();
 		msg.append("L'équipe ");
-		msg.append(team.getPrefix() + team.getName());
+		msg.append(team.getPrefix() + team.getDisplayName());
 		msg.append(ChatColor.GOLD + " remporte la victoire.");
 		RftdLogger.broadcast(Level.SUCCESS, msg.toString());
 
