@@ -1,10 +1,12 @@
 package fr.kyriog.rftd;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
+import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -109,6 +111,13 @@ public final class RftdHelper {
 		Player[] players = Bukkit.getOnlinePlayers();
 		for(Player player : players) {
 			player.setGameMode(gamemode);
+		}
+	}
+
+	public static void setDifficulty(Difficulty difficulty) {
+		List<World> worlds = Bukkit.getWorlds();
+		for(World world : worlds) {
+			world.setDifficulty(difficulty);
 		}
 	}
 

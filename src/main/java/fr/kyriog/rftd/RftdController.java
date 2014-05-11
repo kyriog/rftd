@@ -9,6 +9,7 @@ import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Builder;
 import org.bukkit.FireworkEffect.Type;
+import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -74,6 +75,7 @@ public class RftdController {
 		}
 
 		for(World world : Bukkit.getWorlds()) {
+			world.setDifficulty(Difficulty.PEACEFUL);
 			world.setFullTime(6000);
 			world.setGameRuleValue("doDaylightCycle", "false");
 		}
@@ -86,6 +88,7 @@ public class RftdController {
 		String msg = "Tout le monde est prêt ? On ne bouge plus !";
 		RftdLogger.broadcast(Level.SUCCESS, msg);
 
+		RftdHelper.setDifficulty(Difficulty.HARD);
 		RftdHelper.canEveryoneWalk(false);
 		RftdHelper.setEveryoneGameMode(GameMode.ADVENTURE);
 
@@ -128,6 +131,8 @@ public class RftdController {
 	}
 
 	public void end(Player winner) {
+		RftdHelper.setDifficulty(Difficulty.PEACEFUL);
+
 		Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
 		Team team = scoreboard.getPlayerTeam(winner);
 
