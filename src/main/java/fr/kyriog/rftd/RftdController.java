@@ -22,12 +22,15 @@ public class RftdController {
 	}
 
 	public void setEggLocation(Location egg) {
-		Location simpleEggLocation = new Location(
-				egg.getWorld(),
-				egg.getBlockX(),
-				egg.getBlockY(),
-				egg.getBlockZ());
+		World world = egg.getWorld();
+		int x = egg.getBlockX();
+		int y = egg.getBlockY();
+		int z = egg.getBlockZ();
+
+		Location simpleEggLocation = new Location(world, x, y, z);
 		this.eggLocation = simpleEggLocation;
+
+		world.setSpawnLocation(x, y+2, z);
 
 		String eggLocationString = RftdHelper.blockLocationToString(simpleEggLocation);
 		setConfig("egg", eggLocationString);
