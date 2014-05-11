@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -18,7 +19,7 @@ public final class RftdHelper {
 		return Bukkit.getScoreboardManager().getMainScoreboard();
 	}
 
-	public static ChatColor getColorFromString(String color) {
+	public static ChatColor getChatColorFromString(String color) {
 		String[] stringColors = { "black", "darkblue", "darkgreen", "darkaqua",
 				"darkred", "darkpurple", "gold", "gray", "darkgray", "blue", "green",
 				"aqua", "red", "lightpurple", "yellow", "white"
@@ -35,6 +36,32 @@ public final class RftdHelper {
 		}
 
 		return map.get(color);
+	}
+
+	public static Color getColorFromString(String color) {
+		ChatColor[] chatColors = { ChatColor.BLACK, ChatColor.DARK_BLUE, ChatColor.DARK_GREEN,
+				ChatColor.DARK_AQUA, ChatColor.DARK_RED, ChatColor.DARK_PURPLE, ChatColor.GOLD,
+				ChatColor.GRAY, ChatColor.DARK_GRAY, ChatColor.BLUE, ChatColor.GREEN,
+				ChatColor.AQUA, ChatColor.RED, ChatColor.LIGHT_PURPLE, ChatColor.YELLOW,
+				ChatColor.WHITE
+		};
+		Color[] colors = { Color.fromRGB(0x000000), Color.fromRGB(0x0000AA), Color.fromRGB(0x00AA00),
+				Color.fromRGB(0x00AAAA), Color.fromRGB(0xAA0000), Color.fromRGB(0xAA00AA), Color.fromRGB(0xFFAA00),
+				Color.fromRGB(0xAAAAAA), Color.fromRGB(0x555555), Color.fromRGB(0x5555FF), Color.fromRGB(0x55FF55),
+				Color.fromRGB(0x55FFFF), Color.fromRGB(0xFF5555), Color.fromRGB(0xFF55FF), Color.fromRGB(0xFFFF55),
+				Color.fromRGB(0xFFFFFF)
+		};
+
+		ChatColor chatColor = ChatColor.getByChar(color.substring(1));
+		if(chatColor == null)
+			return null;
+
+		HashMap<ChatColor, Color> map = new HashMap<ChatColor, Color>();
+		for(int i = 0; i < chatColors.length; i++ ) {
+			map.put(chatColors[i], colors[i]);
+		}
+
+		return map.get(chatColor);
 	}
 
 	public static String blockLocationToString(Location location) {

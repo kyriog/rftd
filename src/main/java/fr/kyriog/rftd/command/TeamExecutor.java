@@ -36,7 +36,7 @@ public class TeamExecutor extends BaseAdminExecutor {
 			return;
 		}
 
-		ChatColor color = RftdHelper.getColorFromString(args[1]);
+		ChatColor color = RftdHelper.getChatColorFromString(args[1]);
 		if(color == null) {
 			String msg = "Unable to found " + args[1] + " color";
 			commandSender.sendMessage(ChatColor.RED + msg);
