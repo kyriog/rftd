@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -64,6 +65,14 @@ public class PlayerListener implements Listener {
 		if(!controller.isPlaying() &&
 				e.getPlayer().getGameMode() != GameMode.CREATIVE &&
 				e.getClickedBlock().getType() == Material.DRAGON_EGG) {
+			e.setCancelled(true);
+		}
+	}
+
+	@EventHandler
+	public void onPlayerDropItem(PlayerDropItemEvent e) {
+		if(controller.isPlaying() &&
+				e.getItemDrop().getItemStack().getType() == Material.EYE_OF_ENDER) {
 			e.setCancelled(true);
 		}
 	}
