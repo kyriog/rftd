@@ -3,10 +3,12 @@ package fr.kyriog.rftd.listener;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
@@ -54,6 +56,15 @@ public class PlayerListener implements Listener {
 				newLocation.setDirection(e.getTo().getDirection());
 				e.getPlayer().teleport(newLocation);
 			}
+		}
+	}
+
+	@EventHandler
+	public void onPlayerInteract(PlayerInteractEvent e) {
+		if(!controller.isPlaying() &&
+				e.getPlayer().getGameMode() != GameMode.CREATIVE &&
+				e.getClickedBlock().getType() == Material.DRAGON_EGG) {
+			e.setCancelled(true);
 		}
 	}
 }
