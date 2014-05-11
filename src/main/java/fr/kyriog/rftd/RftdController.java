@@ -46,6 +46,12 @@ public class RftdController {
 	}
 
 	public void onEnable() {
+		String eggLocationString = plugin.getConfig().getString("egg");
+		if(eggLocationString != null) {
+			Location eggLocation = RftdHelper.stringToBlockLocation(eggLocationString);
+			setEggLocation(eggLocation);
+		}
+
 		for(World world : Bukkit.getWorlds()) {
 			world.setFullTime(6000);
 			world.setGameRuleValue("doDaylightCycle", "false");
