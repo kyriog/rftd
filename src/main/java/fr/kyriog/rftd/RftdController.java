@@ -2,6 +2,7 @@ package fr.kyriog.rftd;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -10,12 +11,14 @@ import org.bukkit.FireworkEffect.Builder;
 import org.bukkit.FireworkEffect.Type;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -94,6 +97,9 @@ public class RftdController {
 			inventory.setChestplate(null);
 			inventory.setLeggings(null);
 			inventory.setBoots(null);
+
+			ItemStack endereyes = new ItemStack(Material.EYE_OF_ENDER, 2);
+			inventory.setItem(4, endereyes);
 		}
 
 		task = Bukkit.getScheduler().runTaskTimer(plugin, new StartTimer(), 20, 20);
