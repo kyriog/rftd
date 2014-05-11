@@ -18,6 +18,12 @@ public class EggExecutor extends BaseAdminExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender commandSender, String[] args) {
+		if(controller.isPlaying()) {
+			String msg = "Vous ne pouvez pas changer cela pendant une partie !";
+			commandSender.sendMessage(ChatColor.RED + msg);
+			return true;
+		}
+
 		if(!(commandSender instanceof Player)) {
 			String msg = "Seuls les joueurs sont autorisés à effectuer cette commande";
 			commandSender.sendMessage(ChatColor.RED + msg);
