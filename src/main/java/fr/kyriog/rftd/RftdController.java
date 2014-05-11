@@ -1,13 +1,17 @@
 package fr.kyriog.rftd;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 import fr.kyriog.rftd.RftdLogger.Level;
 
@@ -105,6 +109,43 @@ public class RftdController {
 			world.setFullTime(0);
 			world.setGameRuleValue("doDaylightCycle", "true");
 		}
+	}
+
+	public void end(Player winner) {
+		Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
+		Team team = scoreboard.getPlayerTeam(winner);
+
+		String win = "C'est fini ! L'œuf a été déposé !";
+		RftdLogger.broadcast(Level.SUCCESS, win);
+
+		StringBuilder msg = new StringBuilder();
+		msg.append("L'équipe ");
+		msg.append(team.getPrefix() + team.getName());
+		msg.append(ChatColor.GOLD + " remporte la victoire.");
+		RftdLogger.broadcast(Level.SUCCESS, msg.toString());
+
+		msg = new StringBuilder();
+		msg.append("Félicitations à ");
+
+		OfflinePlayer[] winnersPlayers = team.getPlayers().toArray(new OfflinePlayer[0]);
+		for(int i = 0; i < winnersPlayers.length; i++) {
+			msg.append(winnersPlayers[i].getName());
+
+			if(i == winnersPlayers.length - 2)
+				msg.append(" et ");
+			else if(i < winnersPlayers.length - 2)
+				msg.append(", ");
+		}
+		msg.append(" !");
+		RftdLogger.broadcast(Level.SUCCESS, msg.toString());
+
+		Player[] players = Bukkit.getOnlinePlayers();
+		for(Player player : players) {
+			if(player != winner)
+				player.teleport(eggLocation.getWorld().getSpawnLocation());
+		}
+
+		playing = false;
 	}
 
 	private void setConfig(String path, Object value) {
