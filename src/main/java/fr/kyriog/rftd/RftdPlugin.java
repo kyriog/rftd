@@ -8,6 +8,7 @@ import fr.kyriog.rftd.command.StartExecutor;
 import fr.kyriog.rftd.command.TeamExecutor;
 import fr.kyriog.rftd.listener.EntityListener;
 import fr.kyriog.rftd.listener.PlayerListener;
+import fr.kyriog.rftd.listener.WeatherListener;
 
 public class RftdPlugin extends JavaPlugin {
 	@Override
@@ -23,5 +24,6 @@ public class RftdPlugin extends JavaPlugin {
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(new EntityListener(controller), this);
 		pm.registerEvents(new PlayerListener(controller), this);
+		pm.registerEvents(new WeatherListener(), this);
 	}
 }
