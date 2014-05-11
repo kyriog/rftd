@@ -69,7 +69,7 @@ public class RftdController {
 		RftdLogger.broadcast(Level.SUCCESS, msg);
 
 		RftdHelper.canEveryoneWalk(false);
-		RftdHelper.setEveryoneGameMode(GameMode.SURVIVAL);
+		RftdHelper.setEveryoneGameMode(GameMode.ADVENTURE);
 
 		task = Bukkit.getScheduler().runTaskTimer(plugin, new StartTimer(), 20, 20);
 	}
@@ -77,7 +77,9 @@ public class RftdController {
 	private void freePlayers() {
 		starting = false;
 		task.cancel();
+
 		RftdHelper.canEveryoneWalk(true);
+		RftdHelper.setEveryoneGameMode(GameMode.SURVIVAL);
 
 		for(World world : Bukkit.getWorlds()) {
 			world.setFullTime(0);

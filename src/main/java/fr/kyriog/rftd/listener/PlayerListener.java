@@ -33,7 +33,13 @@ public class PlayerListener implements Listener {
 		float walkSpeed = controller.isStarting() ? 0 : RftdHelper.DEFAULT_WALKSPEED;
 		player.setWalkSpeed(walkSpeed);
 
-		GameMode gamemode = controller.isPlaying() ? GameMode.SURVIVAL : GameMode.CREATIVE;
+		GameMode gamemode;
+		if(!controller.isPlaying())
+			gamemode = GameMode.CREATIVE;
+		else if(controller.isStarting())
+			gamemode = GameMode.ADVENTURE;
+		else
+			gamemode = GameMode.SURVIVAL;
 		player.setGameMode(gamemode);
 	}
 
