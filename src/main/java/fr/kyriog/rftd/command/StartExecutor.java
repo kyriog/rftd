@@ -54,6 +54,13 @@ public class StartExecutor extends BaseAdminExecutor {
 			return true;
 		}
 
+		if(controller.getEggLocation() == null) {
+			String msg = "L'endroit de dépôt de l'œuf de l'enderdragon n'a pas été défini !";
+			RftdLogger.log(Level.ERROR, commandSender, msg);
+
+			return true;
+		}
+
 		controller.start();
 		return true;
 	}

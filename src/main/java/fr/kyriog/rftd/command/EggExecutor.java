@@ -6,7 +6,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import fr.kyriog.rftd.RftdController;
-import fr.kyriog.rftd.RftdHelper;
 import fr.kyriog.rftd.RftdLogger;
 import fr.kyriog.rftd.RftdLogger.Level;
 
@@ -27,8 +26,7 @@ public class EggExecutor extends BaseAdminExecutor {
 
 		Player player = (Player) commandSender;
 		Location eggLocation = player.getLocation();
-		String eggStringLocation = RftdHelper.blockLocationToString(eggLocation);
-		controller.setConfig("egg", eggStringLocation);
+		controller.setEggLocation(eggLocation);
 
 		StringBuilder message = new StringBuilder();
 		message.append("Dépôt de l'œuf de l'enderdragon défini à ");

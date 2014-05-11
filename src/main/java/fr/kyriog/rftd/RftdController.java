@@ -2,6 +2,7 @@ package fr.kyriog.rftd;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -12,6 +13,7 @@ import fr.kyriog.rftd.RftdLogger.Level;
 public class RftdController {
 	private RftdPlugin plugin;
 	private BukkitTask task;
+	private Location eggLocation;
 	private boolean playing = false;
 	private boolean starting = false;
 
@@ -19,9 +21,20 @@ public class RftdController {
 		this.plugin = plugin;
 	}
 
-	public void setConfig(String path, Object value) {
-		plugin.getConfig().set(path, value);
-		plugin.saveConfig();
+	public void setEggLocation(Location egg) {
+		Location simpleEggLocation = new Location(
+				egg.getWorld(),
+				egg.getBlockX(),
+				egg.getBlockY(),
+				egg.getBlockZ());
+		this.eggLocation = simpleEggLocation;
+
+		String eggLocationString = RftdHelper.blockLocationToString(simpleEggLocation);
+		setConfig("egg", eggLocationString);
+	}
+
+	public Location getEggLocation() {
+		return eggLocation;
 	}
 
 	public boolean isPlaying() {
@@ -61,6 +74,11 @@ public class RftdController {
 			world.setFullTime(0);
 			world.setGameRuleValue("doDaylightCycle", "true");
 		}
+	}
+
+	private void setConfig(String path, Object value) {
+		plugin.getConfig().set(path, value);
+		plugin.saveConfig();
 	}
 
 	private class StartTimer implements Runnable {
