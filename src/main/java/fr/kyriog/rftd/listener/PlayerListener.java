@@ -1,5 +1,6 @@
 package fr.kyriog.rftd.listener;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -12,6 +13,8 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 import fr.kyriog.rftd.RftdController;
 import fr.kyriog.rftd.RftdHelper;
@@ -32,6 +35,11 @@ public class PlayerListener implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent e) {
 		Player player = e.getPlayer();
+
+		Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
+		Team team = scoreboard.getPlayerTeam(player);
+		if(team != null)
+			player.setDisplayName(team.getPrefix() + player.getName());
 
 		float walkSpeed = controller.isStarting() ? 0 : RftdHelper.DEFAULT_WALKSPEED;
 		player.setWalkSpeed(walkSpeed);
