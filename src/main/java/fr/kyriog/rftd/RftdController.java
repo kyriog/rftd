@@ -101,7 +101,7 @@ public class RftdController {
 			inventory.setLeggings(null);
 			inventory.setBoots(null);
 
-			ItemStack endereyes = new ItemStack(Material.EYE_OF_ENDER, 2);
+			ItemStack endereyes = new ItemStack(Material.EYE_OF_ENDER, getEyeOfEnderQty());
 			inventory.setItem(4, endereyes);
 		}
 
@@ -196,6 +196,10 @@ public class RftdController {
 		scheduler.runTaskLater(plugin, task, 180);
 
 		playing = false;
+	}
+
+	private int getEyeOfEnderQty() {
+		return plugin.getConfig().getInt("eyeQty", 1);
 	}
 
 	private void setConfig(String path, Object value) {
