@@ -24,6 +24,8 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
@@ -128,9 +130,13 @@ public class RftdController {
 			world.setFullTime(0);
 			world.setGameRuleValue("doDaylightCycle", "true");
 		}
+
+		task = Bukkit.getScheduler().runTaskTimer(plugin, new ScoreboardTask(), 0, 20);
 	}
 
 	public void end(Player winner) {
+		task.cancel();
+
 		RftdHelper.setDifficulty(Difficulty.PEACEFUL);
 
 		Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
@@ -237,6 +243,61 @@ public class RftdController {
 			for(Player player : players) {
 				player.playSound(player.getLocation(), sound, volume, (float) pitch);
 			}
+		}
+	}
+
+	private class ScoreboardTask implements Runnable {
+		public final static String objectiveName = "RFTD";
+
+		private int episode = 1;
+		private int minutesLeft = -1;
+		private int secondsLeft = 1;
+
+		@Override
+		public void run() {
+			secondsLeft--;
+			if(minutesLeft == 0 && secondsLeft == 0) {
+				minutesLeft = -1;
+				secondsLeft = 10;
+				String msg = "Fin de l'épisode " + episode;
+				RftdLogger.broadcast(Level.INFO, msg);
+				episode++;
+			} else if(minutesLeft == -1 && secondsLeft == 0) {
+				minutesLeft = 20;
+				secondsLeft = 0;
+				if(episode != 1) {
+					String msg = "Début de l'épisode " + episode;
+					RftdLogger.broadcast(Level.SUCCESS, msg);
+				}
+			} else if(secondsLeft == -1) {
+				minutesLeft--;
+				secondsLeft = 59;
+			}
+
+			Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
+			Objective objective = scoreboard.getObjective(objectiveName);
+			if(objective != null)
+				objective.unregister();
+
+			objective = scoreboard.registerNewObjective(objectiveName, "dummy");
+			objective.getScore("Episode " + episode).setScore(5);
+			objective.getScore("").setScore(4);
+
+			StringBuilder time = new StringBuilder();
+			if(secondsLeft <= 10) {
+				if(minutesLeft == -1)
+					time.append(ChatColor.RED + "");
+				else if(minutesLeft == 0)
+					time.append(ChatColor.GOLD + "");
+			}
+			if(minutesLeft == -1)
+				time.append("-00");
+			else
+				time.append(" " + String.format("%02d", minutesLeft));
+			time.append(":" + String.format("%02d", secondsLeft));
+			objective.getScore(time.toString()).setScore(3);
+
+			objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 		}
 	}
 
