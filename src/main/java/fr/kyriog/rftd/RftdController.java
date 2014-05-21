@@ -214,6 +214,10 @@ public class RftdController {
 		return plugin.getConfig().getInt("eyeQty", 1);
 	}
 
+	private int getEpisodeLength() {
+		return plugin.getConfig().getInt("episodeLength", 20);
+	}
+
 	private void setConfig(String path, Object value) {
 		plugin.getConfig().set(path, value);
 		plugin.saveConfig();
@@ -268,7 +272,7 @@ public class RftdController {
 				RftdLogger.broadcast(Level.INFO, msg);
 				episode++;
 			} else if(minutesLeft == -1 && secondsLeft == 0) {
-				minutesLeft = 20;
+				minutesLeft = getEpisodeLength();
 				secondsLeft = 0;
 				if(episode != 1) {
 					String msg = "Début de l'épisode " + episode;
