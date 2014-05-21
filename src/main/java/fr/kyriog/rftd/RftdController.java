@@ -37,9 +37,14 @@ public class RftdController {
 	private Location eggLocation;
 	private boolean playing = false;
 	private boolean starting = false;
+	private int episode = 0;
 
 	public RftdController(RftdPlugin plugin) {
 		this.plugin = plugin;
+	}
+
+	public int getEpisode() {
+		return episode;
 	}
 
 	public void setEggLocation(Location egg) {
@@ -131,6 +136,7 @@ public class RftdController {
 			world.setGameRuleValue("doDaylightCycle", "true");
 		}
 
+		episode = 1;
 		task = Bukkit.getScheduler().runTaskTimer(plugin, new ScoreboardTask(), 0, 20);
 	}
 
@@ -249,7 +255,6 @@ public class RftdController {
 	private class ScoreboardTask implements Runnable {
 		public final static String objectiveName = "RFTD";
 
-		private int episode = 1;
 		private int minutesLeft = -1;
 		private int secondsLeft = 1;
 
