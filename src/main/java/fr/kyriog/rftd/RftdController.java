@@ -75,6 +75,11 @@ public class RftdController {
 	}
 
 	public void onEnable() {
+		Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
+		Objective objective = scoreboard.getObjective(DisplaySlot.SIDEBAR);
+		if(objective != null)
+			objective.unregister();
+
 		String eggLocationString = plugin.getConfig().getString("egg");
 		if(eggLocationString != null) {
 			Location eggLocation = RftdHelper.stringToBlockLocation(eggLocationString);
