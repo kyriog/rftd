@@ -72,6 +72,7 @@ public class PlayerListener implements Listener {
 	public void onPlayerInteract(PlayerInteractEvent e) {
 		if(!controller.isPlaying() &&
 				e.getPlayer().getGameMode() != GameMode.CREATIVE &&
+				e.getClickedBlock() != null &&
 				e.getClickedBlock().getType() == Material.DRAGON_EGG) {
 			e.setCancelled(true);
 		}
