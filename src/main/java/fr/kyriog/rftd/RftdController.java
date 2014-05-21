@@ -218,6 +218,10 @@ public class RftdController {
 		return plugin.getConfig().getInt("episodeLength", 20);
 	}
 
+	private int getSeason() {
+		return plugin.getConfig().getInt("season", 0);
+	}
+
 	private void setConfig(String path, Object value) {
 		plugin.getConfig().set(path, value);
 		plugin.saveConfig();
@@ -289,8 +293,9 @@ public class RftdController {
 				objective.unregister();
 
 			objective = scoreboard.registerNewObjective(objectiveName, "dummy");
-			objective.getScore("Episode " + episode).setScore(5);
-			objective.getScore("").setScore(4);
+			objective.getScore("Saison " + getSeason()).setScore(3);
+			objective.getScore("Episode " + episode).setScore(2);
+			objective.getScore("").setScore(1);
 
 			StringBuilder time = new StringBuilder();
 			if(secondsLeft <= 10) {
@@ -304,7 +309,7 @@ public class RftdController {
 			else
 				time.append(" " + String.format("%02d", minutesLeft));
 			time.append(":" + String.format("%02d", secondsLeft));
-			objective.getScore(time.toString()).setScore(3);
+			objective.getScore(time.toString()).setScore(0);
 
 			objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 		}
