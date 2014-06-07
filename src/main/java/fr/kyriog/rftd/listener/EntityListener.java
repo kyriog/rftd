@@ -24,7 +24,8 @@ public class EntityListener implements Listener {
 	@EventHandler
 	public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
 		if(controller.getEpisode() == 1
-				&& e.getDamager().getType() == EntityType.PLAYER)
+				&& e.getDamager().getType() == EntityType.PLAYER
+				&& e.getEntity().getType() == EntityType.PLAYER)
 			e.setCancelled(true);
 	}
 }
