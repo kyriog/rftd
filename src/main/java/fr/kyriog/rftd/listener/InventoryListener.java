@@ -20,10 +20,12 @@ public class InventoryListener implements Listener {
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
 		if(controller.isPlaying()) {
-			boolean move = e.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY
-					&& e.getCurrentItem().getType() == Material.EYE_OF_ENDER;
+			boolean move = e.getRawSlot() >= e.getInventory().getSize()
+					&& e.getCurrentItem().getType() == Material.EYE_OF_ENDER
+					&& e.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY;
 			boolean inventory = e.getRawSlot() < e.getInventory().getSize()
-					&& e.getCursor().getType() == Material.EYE_OF_ENDER;
+					&& e.getCursor().getType() == Material.EYE_OF_ENDER
+					&& e.getAction() != InventoryAction.PICKUP_ALL;
 
 			if(move || inventory)
 				e.setResult(Result.DENY);
