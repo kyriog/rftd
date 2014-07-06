@@ -1,5 +1,6 @@
 package fr.kyriog.rftd;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -92,7 +93,7 @@ public final class RftdHelper {
 	}
 
 	public static void potionEveryone(PotionEffect... effects) {
-		Player[] players = Bukkit.getOnlinePlayers();
+		Collection<? extends Player> players = Bukkit.getOnlinePlayers();
 		for(Player player : players) {
 			for(PotionEffect effect : effects)
 				player.addPotionEffect(effect);
@@ -101,14 +102,14 @@ public final class RftdHelper {
 
 	public static void canEveryoneWalk(boolean walk) {
 		float walkspeed = walk ? RftdHelper.DEFAULT_WALKSPEED : 0;
-		Player[] players = Bukkit.getOnlinePlayers();
+		Collection<? extends Player> players = Bukkit.getOnlinePlayers();
 		for(Player player : players) {
 			player.setWalkSpeed(walkspeed);
 		}
 	}
 
 	public static void setEveryoneGameMode(GameMode gamemode) {
-		Player[] players = Bukkit.getOnlinePlayers();
+		Collection<? extends Player> players = Bukkit.getOnlinePlayers();
 		for(Player player : players) {
 			player.setGameMode(gamemode);
 		}
