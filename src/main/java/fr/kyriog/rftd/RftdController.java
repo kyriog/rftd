@@ -145,6 +145,10 @@ public class RftdController {
 		task = Bukkit.getScheduler().runTaskTimer(plugin, new ScoreboardTask(), 0, 20);
 	}
 
+	public void spawnTrappedEgg() {
+		System.out.println("Spawning trapped egg…");
+	}
+
 	public void end(Player winner) {
 		task.cancel();
 
