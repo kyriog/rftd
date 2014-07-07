@@ -1,6 +1,6 @@
 name: RFTD
 main: fr.kyriog.rftd.RftdPlugin
-version: 0.1.1-SNAPSHOT
+version: 0.1.0-SNAPSHOT
 commands:
   team:
     usage: "Usage: /team <add|join>"

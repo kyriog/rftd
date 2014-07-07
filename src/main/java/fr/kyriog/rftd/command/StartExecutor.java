@@ -1,6 +1,5 @@
 package fr.kyriog.rftd.command;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,7 +29,7 @@ public class StartExecutor extends BaseAdminExecutor {
 		}
 
 		Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
-		Collection<? extends Player> players = Bukkit.getOnlinePlayers();
+		Player[] players = Bukkit.getOnlinePlayers();
 		Set<String> noTeamPlayers = new HashSet<String>();
 		for(Player player : players) {
 			Team team = scoreboard.getPlayerTeam(player);

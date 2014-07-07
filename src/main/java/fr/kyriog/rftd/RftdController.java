@@ -1,7 +1,6 @@
 package fr.kyriog.rftd;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -105,7 +104,7 @@ public class RftdController {
 		RftdHelper.canEveryoneWalk(false);
 		RftdHelper.setEveryoneGameMode(GameMode.ADVENTURE);
 
-		Collection<? extends Player> players = Bukkit.getOnlinePlayers();
+		Player[] players = Bukkit.getOnlinePlayers();
 		for(Player player : players) {
 			PlayerInventory inventory = player.getInventory();
 			inventory.clear();
@@ -125,7 +124,7 @@ public class RftdController {
 		starting = false;
 		task.cancel();
 
-		Collection<? extends Player> players = Bukkit.getOnlinePlayers();
+		Player[] players = Bukkit.getOnlinePlayers();
 		for(Player player : players) {
 			player.setHealth(20);
 			player.setFoodLevel(20);
@@ -178,7 +177,7 @@ public class RftdController {
 		msg.append(" !");
 		RftdLogger.broadcast(Level.SUCCESS, msg.toString());
 
-		Collection<? extends Player> players = Bukkit.getOnlinePlayers();
+		Player[] players = Bukkit.getOnlinePlayers();
 		for(Player player : players) {
 			if(player != winner)
 				player.teleport(eggLocation.getWorld().getSpawnLocation());
@@ -259,7 +258,7 @@ public class RftdController {
 		}
 
 		private void playSoundForAllPlayers(Sound sound, float volume, double pitch) {
-			Collection<? extends Player> players = Bukkit.getOnlinePlayers();
+			Player[] players = Bukkit.getOnlinePlayers();
 			for(Player player : players) {
 				player.playSound(player.getLocation(), sound, volume, (float) pitch);
 			}

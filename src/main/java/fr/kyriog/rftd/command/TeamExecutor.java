@@ -1,7 +1,5 @@
 package fr.kyriog.rftd.command;
 
-import java.util.Collection;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -91,7 +89,7 @@ public class TeamExecutor extends BaseAdminExecutor {
 		}
 
 		Player playerToAdd = null;
-		Collection<? extends Player> players = Bukkit.getOnlinePlayers();
+		Player[] players = Bukkit.getOnlinePlayers();
 		for(Player player : players) {
 			if(args[2].equals(player.getName())) {
 				playerToAdd = player;
