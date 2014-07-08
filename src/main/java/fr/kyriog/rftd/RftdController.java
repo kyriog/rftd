@@ -146,7 +146,47 @@ public class RftdController {
 	}
 
 	public void spawnTrappedEgg() {
-		System.out.println("Spawning trapped egg…");
+		eggLocation.getBlock().setType(Material.DRAGON_EGG);
+
+		// Spawning fireworks twice because it doesn't always works on the first try…
+		for(int i = 0; i < 2; i++) {
+			Firework fw = (Firework) eggLocation.getWorld()
+					.spawnEntity(eggLocation.clone().add(0.5, 1, 0.5), EntityType.FIREWORK);
+
+			FireworkMeta meta = fw.getFireworkMeta();
+			Builder builder = FireworkEffect.builder()
+					.with(Type.BALL)
+					.withColor(Color.fromRGB(0x08080c));
+			meta.addEffect(builder.build());
+			builder = FireworkEffect.builder()
+					.with(Type.BALL)
+					.withColor(Color.fromRGB(0x2d0133));
+			meta.addEffect(builder.build());
+			meta.setPower(1);
+
+			fw.setFireworkMeta(meta);
+			fw.detonate();
+		}
+
+		for(Player player : Bukkit.getOnlinePlayers())
+			player.playSound(player.getLocation(), Sound.ENDERDRAGON_GROWL, 1, 1);
+
+		StringBuilder msg = new StringBuilder();
+		msg.append("[");
+		msg.append(ChatColor.DARK_PURPLE + "ENDERDRAGON");
+		msg.append(ChatColor.WHITE + "] ");
+		msg.append(ChatColor.RED + "Vous pensiez vous être débarrassé de moi ?");
+		Bukkit.broadcastMessage(msg.toString());
+
+		msg = new StringBuilder();
+		msg.append("[");
+		msg.append(ChatColor.DARK_PURPLE + "ENDERDRAGON");
+		msg.append(ChatColor.WHITE + "] ");
+		msg.append(ChatColor.DARK_RED + "Je vous attends au spawn...");
+		Bukkit.broadcastMessage(msg.toString());
+
+		String msgHelp = "Noobs : le spawn se trouve en x=" + eggLocation.getBlockX() + ", z=" + eggLocation.getBlockZ();
+		RftdLogger.broadcast(Level.INFO, msgHelp);
 	}
 
 	public void end(Player winner) {
