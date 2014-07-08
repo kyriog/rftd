@@ -9,6 +9,7 @@ import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.ItemDespawnEvent;
+import org.bukkit.event.entity.ItemSpawnEvent;
 
 import fr.kyriog.rftd.RftdController;
 
@@ -53,6 +54,17 @@ public class EntityListener implements Listener {
 			Item item = (Item) e.getEntity();
 			if(item.getItemStack().getType() == Material.DRAGON_EGG)
 				controller.spawnTrappedEgg();
+		}
+	}
+
+	@EventHandler
+	public void onItemSpawn(ItemSpawnEvent e) {
+		System.out.println("ItemSpawnEvent fired!");
+		if(controller.isPlaying()
+				&& e.getEntity().getItemStack().getType() == Material.DRAGON_EGG
+				&& controller.isTrappedEgg()) {
+			e.setCancelled(true);
+			controller.spawnDragon();
 		}
 	}
 }

@@ -38,6 +38,7 @@ public class RftdController {
 	private boolean playing = false;
 	private boolean starting = false;
 	private int episode = 0;
+	private boolean trappedEgg = false;
 
 	public RftdController(RftdPlugin plugin) {
 		this.plugin = plugin;
@@ -72,6 +73,10 @@ public class RftdController {
 
 	public boolean isStarting() {
 		return starting;
+	}
+
+	public boolean isTrappedEgg() {
+		return trappedEgg;
 	}
 
 	public void onEnable() {
@@ -187,6 +192,13 @@ public class RftdController {
 
 		String msgHelp = "Noobs : le spawn se trouve en x=" + eggLocation.getBlockX() + ", z=" + eggLocation.getBlockZ();
 		RftdLogger.broadcast(Level.INFO, msgHelp);
+
+		trappedEgg = true;
+	}
+
+	public void spawnDragon() {
+		trappedEgg = false;
+		System.out.println("Spawning dragon");
 	}
 
 	public void end(Player winner) {
