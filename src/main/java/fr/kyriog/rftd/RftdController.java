@@ -196,6 +196,10 @@ public class RftdController {
 		RftdLogger.broadcast(Level.INFO, msgHelp);
 
 		trappedEgg = true;
+
+		// Start sound between 3 seconds (60 ticks) and 5 seconds (100 ticks)
+		long nextTick = Math.round(Math.random() * 40) + 60;
+		Bukkit.getScheduler().runTaskLater(plugin, new TrappedEggSoundTask(), nextTick);
 	}
 
 	public void spawnDragon() {
@@ -386,6 +390,20 @@ public class RftdController {
 			objective.getScore(time.toString()).setScore(0);
 
 			objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+		}
+	}
+
+	private class TrappedEggSoundTask implements Runnable {
+		@Override
+		public void run() {
+			if(!trappedEgg)
+				return;
+
+			eggLocation.getWorld().playSound(eggLocation, Sound.ENDERDRAGON_GROWL, (float) 0.7, 2);
+
+			// Next sound between 3 seconds (60 ticks) and 10 seconds (200 ticks)
+			long nextTick = Math.round(Math.random() * 140) + 60;
+			Bukkit.getScheduler().runTaskLater(plugin, this, nextTick);
 		}
 	}
 
