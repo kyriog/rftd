@@ -17,6 +17,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -28,6 +29,7 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
+import org.bukkit.util.Vector;
 
 import fr.kyriog.rftd.RftdLogger.Level;
 
@@ -198,7 +200,18 @@ public class RftdController {
 
 	public void spawnDragon() {
 		trappedEgg = false;
-		System.out.println("Spawning dragon");
+		eggLocation.getBlock().setType(Material.AIR);
+		@SuppressWarnings("deprecation")
+		final FallingBlock fallingEgg = eggLocation.getWorld().spawnFallingBlock(eggLocation, Material.DRAGON_EGG, (byte) 0);
+		fallingEgg.setVelocity(new Vector(0, 2, 0));
+
+		Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
+			@Override
+			public void run() {
+				fallingEgg.getWorld().spawnEntity(fallingEgg.getLocation(), EntityType.ENDER_DRAGON);
+				fallingEgg.remove();
+			}
+		}, 35);
 	}
 
 	public void end(Player winner) {
