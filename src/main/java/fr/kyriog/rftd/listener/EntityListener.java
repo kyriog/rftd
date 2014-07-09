@@ -59,7 +59,6 @@ public class EntityListener implements Listener {
 
 	@EventHandler
 	public void onItemSpawn(ItemSpawnEvent e) {
-		System.out.println("ItemSpawnEvent fired!");
 		if(controller.isPlaying()
 				&& e.getEntity().getItemStack().getType() == Material.DRAGON_EGG
 				&& controller.isTrappedEgg()) {
