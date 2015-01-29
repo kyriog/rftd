@@ -3,6 +3,8 @@ package fr.kyriog.rftd.listener;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.CreatureSpawner;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -22,6 +24,12 @@ public class BlockListener implements Listener {
 	public void onBlockBreak(BlockBreakEvent e) {
 		if(controller.isStarting())
 			e.setCancelled(true);
+		else if(controller.isPlaying()
+				&& e.getBlock().getType() == Material.MOB_SPAWNER) {
+			CreatureSpawner spawner = (CreatureSpawner) e.getBlock().getState();
+			if(spawner.getSpawnedType() == EntityType.BLAZE)
+				e.setCancelled(true);
+		}
 	}
 
 	@EventHandler
