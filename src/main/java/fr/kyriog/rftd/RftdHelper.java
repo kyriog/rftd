@@ -121,5 +121,12 @@ public final class RftdHelper {
 		}
 	}
 
+	public static void setAnimalSpawnLimit(int limit) {
+		List<World> worlds = Bukkit.getWorlds();
+		for(World world : worlds) {
+			world.setAnimalSpawnLimit(limit);
+		}
+	}
+
 	private RftdHelper() {}
 }

@@ -6,10 +6,10 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
+import org.bukkit.Difficulty;
 import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Builder;
 import org.bukkit.FireworkEffect.Type;
-import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -110,6 +110,7 @@ public class RftdController {
 		RftdHelper.setDifficulty(Difficulty.HARD);
 		RftdHelper.canEveryoneWalk(false);
 		RftdHelper.setEveryoneGameMode(GameMode.ADVENTURE);
+		RftdHelper.setAnimalSpawnLimit(50);
 
 		Player[] players = Bukkit.getOnlinePlayers();
 		for(Player player : players) {
@@ -222,6 +223,7 @@ public class RftdController {
 		task.cancel();
 
 		RftdHelper.setDifficulty(Difficulty.PEACEFUL);
+		RftdHelper.setAnimalSpawnLimit(-1); // Reset to Minecraft default value (should be 15)
 
 		Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
 		Team team = scoreboard.getPlayerTeam(winner);
