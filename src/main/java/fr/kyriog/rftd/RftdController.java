@@ -59,8 +59,6 @@ public class RftdController {
 		Location simpleEggLocation = new Location(world, x, y, z);
 		this.eggLocation = simpleEggLocation;
 
-		world.setSpawnLocation(x, y+2, z);
-
 		String eggLocationString = RftdHelper.blockLocationToString(simpleEggLocation);
 		setConfig("egg", eggLocationString);
 	}
@@ -255,7 +253,7 @@ public class RftdController {
 		Player[] players = Bukkit.getOnlinePlayers();
 		for(Player player : players) {
 			if(player != winner)
-				player.teleport(eggLocation.getWorld().getSpawnLocation());
+				player.teleport(eggLocation);
 		}
 
 		BukkitScheduler scheduler = Bukkit.getScheduler();
