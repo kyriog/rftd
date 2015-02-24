@@ -1,7 +1,6 @@
 package fr.kyriog.rftd;
 
 import fr.kyriog.rftd.command.SpawnpointExecutor;
-import org.bukkit.command.defaults.SpawnpointCommand;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
