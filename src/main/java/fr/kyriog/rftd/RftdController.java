@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import be.maximvdw.titlemotd.ui.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -117,8 +118,16 @@ public class RftdController {
 		playing = true;
 		starting = true;
 
-		String msg = "Tout le monde est prêt ? On ne bouge plus !";
-		RftdLogger.broadcast(Level.SUCCESS, msg);
+		Title title = new Title("Tout le monde est prêt ?");
+		title.setTitleColor(ChatColor.DARK_AQUA);
+		title.setSubtitle("On ne bouge plus !");
+		title.setSubtitleColor(ChatColor.AQUA);
+		title.setFadeInTime(9);
+		title.setStayTime(20);
+		title.setFadeOutTime(9);
+		title.setTimingsToTicks();
+		title.broadcast();
+		RftdLogger.log(Level.INFO, "Starting game...");
 
 		RftdHelper.setDifficulty(Difficulty.HARD);
 		RftdHelper.canEveryoneWalk(false);
@@ -138,7 +147,7 @@ public class RftdController {
 			inventory.setItem(4, endereyes);
 		}
 
-		task = Bukkit.getScheduler().runTaskTimer(plugin, new StartTimer(), 20, 20);
+		task = Bukkit.getScheduler().runTaskTimer(plugin, new StartTimer(), 40, 20);
 	}
 
 	private void freePlayers() {
@@ -352,20 +361,42 @@ public class RftdController {
 
 		@Override
 		public void run() {
-			if(timer == 5) {
-				String msg = "Démarrage de la partie dans";
-				RftdLogger.broadcast(Level.INFO, msg);
-			}
-
 			if(timer != 0) {
-				RftdLogger.broadcast(Level.INFO, String.valueOf(timer));
+				Title timerTitle = new Title(String.valueOf(timer));
+				switch(timer) {
+					case 3:
+						timerTitle.setTitleColor(ChatColor.GOLD);
+						break;
+					case 2:
+						timerTitle.setTitleColor(ChatColor.RED);
+						break;
+					case 1:
+						timerTitle.setTitleColor(ChatColor.DARK_RED);
+						break;
+					default:
+						timerTitle.setTitleColor(ChatColor.YELLOW);
+				}
+				timerTitle.setFadeInTime(0);
+				timerTitle.setStayTime(15);
+				timerTitle.setFadeOutTime(5);
+				timerTitle.setTimingsToTicks();
+				timerTitle.broadcast();
 				if(timer <= 3) {
 					playSoundForAllPlayers(Sound.NOTE_PIANO, 10, 0.5);
 				}
+				RftdLogger.log(Level.INFO, String.valueOf(timer));
 			} else {
-				String msg = "Bonne chance à tous !";
-				RftdLogger.broadcast(Level.SUCCESS, msg);
+				Title timerTitle = new Title("Go !");
+				timerTitle.setTitleColor(ChatColor.GREEN);
+				timerTitle.setSubtitle("Bonne chance à tous !");
+				timerTitle.setSubtitleColor(ChatColor.DARK_GREEN);
+				timerTitle.setFadeInTime(5);
+				timerTitle.setStayTime(40);
+				timerTitle.setFadeOutTime(20);
+				timerTitle.setTimingsToTicks();
+				timerTitle.broadcast();
 				playSoundForAllPlayers(Sound.NOTE_PIANO, 10, 1);
+				RftdLogger.log(Level.INFO, "Game started!");
 				freePlayers();
 			}
 
