@@ -1,6 +1,7 @@
 package fr.kyriog.rftd;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -25,6 +26,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.FireworkMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -277,18 +279,31 @@ public class RftdController {
 		Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
 		Team team = scoreboard.getPlayerTeam(winner);
 
-		String win = "C'est fini ! L'œuf a été déposé !";
-		RftdLogger.broadcast(Level.SUCCESS, win);
+		RftdLogger.log(Level.INFO, "Team " + team.getDisplayName() + " win the game!");
+
+		Title winTitle = new Title("C'est fini !");
+		winTitle.setTitleColor(ChatColor.YELLOW);
+		winTitle.setSubtitle("L'œuf a été déposé !");
+		winTitle.setSubtitleColor(ChatColor.GOLD);
+		winTitle.setFadeInTime(10);
+		winTitle.setStayTime(20);
+		winTitle.setFadeOutTime(10);
+		winTitle.setTimingsToTicks();
+		winTitle.broadcast();
+
+		String[] winAnimation = new String[]{"(>'-')>", "^('-')^", "<('-'<)", "^('-')^"};
 
 		StringBuilder msg = new StringBuilder();
 		msg.append("L'équipe ");
 		msg.append(team.getPrefix() + team.getDisplayName());
 		msg.append(ChatColor.GOLD + " remporte la victoire.");
-		RftdLogger.broadcast(Level.SUCCESS, msg.toString());
+		AnimatedTitleTask teamTask = new AnimatedTitleTask(msg.toString(), 32);
+		teamTask.setAnimations(winAnimation);
+		teamTask.setTimes(10, 0);
+		teamTask.runTaskTimer(plugin, 40, 5);
 
 		msg = new StringBuilder();
 		msg.append("Félicitations à ");
-
 		OfflinePlayer[] winnersPlayers = team.getPlayers().toArray(new OfflinePlayer[0]);
 		for(int i = 0; i < winnersPlayers.length; i++) {
 			msg.append(winnersPlayers[i].getName());
@@ -299,7 +314,10 @@ public class RftdController {
 				msg.append(", ");
 		}
 		msg.append(" !");
-		RftdLogger.broadcast(Level.SUCCESS, msg.toString());
+		AnimatedTitleTask playersTask = new AnimatedTitleTask(msg.toString(), 32);
+		playersTask.setAnimations(winAnimation);
+		playersTask.setTimes(0, 10);
+		playersTask.runTaskTimer(plugin, 200, 5);
 
 		Collection<? extends Player> players = Bukkit.getOnlinePlayers();
 		for(Player player : players) {
@@ -523,6 +541,55 @@ public class RftdController {
 				meta.addEffect(effect);
 			meta.setPower(1);
 			fw.setFireworkMeta(meta);
+		}
+	}
+
+	private class AnimatedTitleTask extends BukkitRunnable {
+		private List<String> animations = new ArrayList<>();
+		private String message;
+		private int fadeInTime = 0;
+		private int fadeOutTime = 0;
+		private int totalDuration;
+		private int currentDuration = 0;
+		private int currentAnimation = 0;
+
+		public AnimatedTitleTask(String message, int duration) {
+			this.message = message;
+			this.totalDuration = duration;
+		}
+
+		public void addAnimation(String animation) {
+			animations.add(animation);
+		}
+
+		public void setAnimations(String... animations) {
+			this.animations.addAll(Arrays.asList(animations));
+		}
+
+		public void setTimes(int fadeInTime, int fadeOutTime) {
+			this.fadeInTime = fadeInTime;
+			this.fadeOutTime = fadeOutTime;
+		}
+
+		@Override
+		public void run() {
+			currentDuration++;
+
+			Title animatedTitle = new Title(animations.get(currentAnimation));
+			animatedTitle.setTitleColor(ChatColor.DARK_AQUA);
+			animatedTitle.setSubtitle(message);
+			animatedTitle.setSubtitleColor(ChatColor.GOLD);
+			animatedTitle.setFadeInTime(currentDuration == 0 ? fadeInTime : 0);
+			animatedTitle.setStayTime(10);
+			animatedTitle.setFadeOutTime(currentDuration == totalDuration ? fadeOutTime : 0);
+			animatedTitle.setTimingsToTicks();
+			animatedTitle.broadcast();
+
+			if(currentDuration == totalDuration)
+				cancel();
+			currentAnimation++;
+			if(currentAnimation >= animations.size())
+				currentAnimation = 0;
 		}
 	}
 }
