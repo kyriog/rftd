@@ -423,8 +423,15 @@ public class RftdController {
 			if(minutesLeft == 0 && secondsLeft == 0) {
 				minutesLeft = -1;
 				secondsLeft = 10;
-				String msg = "Fin de l'épisode " + episode;
-				RftdLogger.broadcast(Level.INFO, msg);
+				Title endTitle = new Title("");
+				endTitle.setSubtitle("Fin de l'épisode " + episode);
+				endTitle.setSubtitleColor(ChatColor.GOLD);
+				endTitle.setFadeInTime(5);
+				endTitle.setStayTime(30);
+				endTitle.setFadeOutTime(5);
+				endTitle.setTimingsToTicks();
+				endTitle.broadcast();
+				RftdLogger.log(Level.INFO, "Ending episode " + episode);
 				episode++;
 			} else if(minutesLeft == -1 && secondsLeft == 0) {
 				minutesLeft = getEpisodeLength();
