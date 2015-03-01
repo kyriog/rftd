@@ -41,8 +41,9 @@ public class RftdController {
 	private boolean playing = false;
 	private boolean starting = false;
 	private int episode = 0;
-	private boolean trappedEgg = false;
+	private boolean announceEndTeleport = true;
 	private boolean listenEntityDamage = true;
+	private boolean trappedEgg = false;
 
 	public RftdController(RftdPlugin plugin) {
 		this.plugin = plugin;
@@ -155,6 +156,20 @@ public class RftdController {
 
 		episode = 1;
 		task = Bukkit.getScheduler().runTaskTimer(plugin, new ScoreboardTask(), 0, 20);
+	}
+
+	public void annouceEndTeleport() {
+		if(!announceEndTeleport)
+			return;
+
+		announceEndTeleport = false;
+
+		String msg = "Un joueur vient d'entrer dans l'End !";
+		RftdLogger.broadcast(Level.INFO, msg);
+
+		for(Player player : Bukkit.getOnlinePlayers()) {
+			player.playSound(player.getLocation(), Sound.ENDERDRAGON_GROWL, 1, 1);
+		}
 	}
 
 	public void lockListenEntityDamage() {

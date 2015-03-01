@@ -5,10 +5,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.ItemDespawnEvent;
-import org.bukkit.event.entity.ItemSpawnEvent;
+import org.bukkit.event.entity.*;
 
 import fr.kyriog.rftd.RftdController;
 
@@ -56,6 +53,15 @@ public class EntityListener implements Listener {
 				&& controller.isTrappedEgg()) {
 			e.setCancelled(true);
 			controller.spawnDragon();
+		}
+	}
+
+	@EventHandler
+	public void onEntityPortalEnter(EntityPortalEnterEvent e) {
+		if(controller.isPlaying()
+				&& e.getEntityType() == EntityType.PLAYER
+				&& e.getLocation().getBlock().getType() == Material.ENDER_PORTAL) {
+			controller.annouceEndTeleport();
 		}
 	}
 }
