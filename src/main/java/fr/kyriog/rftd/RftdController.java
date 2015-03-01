@@ -1,6 +1,7 @@
 package fr.kyriog.rftd;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -41,6 +42,7 @@ public class RftdController {
 	private boolean starting = false;
 	private int episode = 0;
 	private boolean trappedEgg = false;
+	private boolean listenEntityDamage = true;
 
 	public RftdController(RftdPlugin plugin) {
 		this.plugin = plugin;
@@ -79,6 +81,10 @@ public class RftdController {
 		return trappedEgg;
 	}
 
+	public boolean shouldListenEntityDamage() {
+		return listenEntityDamage;
+	}
+
 	public void onEnable() {
 		Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
 		Objective objective = scoreboard.getObjective(DisplaySlot.SIDEBAR);
@@ -110,7 +116,7 @@ public class RftdController {
 		RftdHelper.setEveryoneGameMode(GameMode.ADVENTURE);
 		RftdHelper.setAnimalSpawnLimit(50);
 
-		Player[] players = Bukkit.getOnlinePlayers();
+		Collection<? extends Player> players = Bukkit.getOnlinePlayers();
 		for(Player player : players) {
 			PlayerInventory inventory = player.getInventory();
 			inventory.clear();
@@ -130,7 +136,7 @@ public class RftdController {
 		starting = false;
 		task.cancel();
 
-		Player[] players = Bukkit.getOnlinePlayers();
+		Collection<? extends Player> players = Bukkit.getOnlinePlayers();
 		for(Player player : players) {
 			player.setHealth(20);
 			player.setFoodLevel(20);
@@ -149,6 +155,19 @@ public class RftdController {
 
 		episode = 1;
 		task = Bukkit.getScheduler().runTaskTimer(plugin, new ScoreboardTask(), 0, 20);
+	}
+
+	public void lockListenEntityDamage() {
+		if(!listenEntityDamage)
+			return;
+
+		listenEntityDamage = false;
+		Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, new Runnable() {
+			@Override
+			public void run() {
+				listenEntityDamage = true;
+			}
+		}, 20);
 	}
 
 	public void spawnTrappedEgg() {
@@ -250,7 +269,7 @@ public class RftdController {
 		msg.append(" !");
 		RftdLogger.broadcast(Level.SUCCESS, msg.toString());
 
-		Player[] players = Bukkit.getOnlinePlayers();
+		Collection<? extends Player> players = Bukkit.getOnlinePlayers();
 		for(Player player : players) {
 			if(player != winner)
 				player.teleport(eggLocation);
@@ -331,7 +350,7 @@ public class RftdController {
 		}
 
 		private void playSoundForAllPlayers(Sound sound, float volume, double pitch) {
-			Player[] players = Bukkit.getOnlinePlayers();
+			Collection<? extends Player> players = Bukkit.getOnlinePlayers();
 			for(Player player : players) {
 				player.playSound(player.getLocation(), sound, volume, (float) pitch);
 			}

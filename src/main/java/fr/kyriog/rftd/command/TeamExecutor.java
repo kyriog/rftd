@@ -11,6 +11,8 @@ import fr.kyriog.rftd.RftdHelper;
 import fr.kyriog.rftd.RftdLogger;
 import fr.kyriog.rftd.RftdLogger.Level;
 
+import java.util.Collection;
+
 public class TeamExecutor extends BaseAdminExecutor {
 	@Override
 	public boolean onCommand(CommandSender commandSender, String[] args) {
@@ -89,7 +91,7 @@ public class TeamExecutor extends BaseAdminExecutor {
 		}
 
 		Player playerToAdd = null;
-		Player[] players = Bukkit.getOnlinePlayers();
+		Collection<? extends Player> players = Bukkit.getOnlinePlayers();
 		for(Player player : players) {
 			if(args[2].equals(player.getName())) {
 				playerToAdd = player;
