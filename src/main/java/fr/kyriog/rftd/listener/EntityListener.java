@@ -61,7 +61,7 @@ public class EntityListener implements Listener {
 		if(controller.isPlaying()
 				&& e.getEntityType() == EntityType.PLAYER
 				&& e.getLocation().getBlock().getType() == Material.ENDER_PORTAL) {
-			controller.annouceEndTeleport();
+			controller.endTeleportEvent(e.getLocation());
 		}
 	}
 }

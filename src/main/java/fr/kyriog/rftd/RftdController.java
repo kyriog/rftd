@@ -41,7 +41,8 @@ public class RftdController {
 	private boolean playing = false;
 	private boolean starting = false;
 	private int episode = 0;
-	private boolean announceEndTeleport = true;
+	private Location endPortalLocation = null;
+	private boolean endPortalLocationAnnounced = false;
 	private boolean listenEntityDamage = true;
 	private boolean trappedEgg = false;
 
@@ -87,6 +88,13 @@ public class RftdController {
 	}
 
 	public void onEnable() {
+		if(plugin.getConfig().getInt("endPortalLocationEpisodeAnnounce") == 0) {
+			String msg = "No value found for 'endPortalLocationEpisodeAnnounce', disabling end portal announce";
+			RftdLogger.log(Level.WARN, msg);
+
+			endPortalLocationAnnounced = true;
+		}
+
 		Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
 		Objective objective = scoreboard.getObjective(DisplaySlot.SIDEBAR);
 		if(objective != null)
@@ -158,11 +166,11 @@ public class RftdController {
 		task = Bukkit.getScheduler().runTaskTimer(plugin, new ScoreboardTask(), 0, 20);
 	}
 
-	public void annouceEndTeleport() {
-		if(!announceEndTeleport)
+	public void endTeleportEvent(Location endPortalLocation) {
+		if(this.endPortalLocation != null)
 			return;
 
-		announceEndTeleport = false;
+		this.endPortalLocation = endPortalLocation;
 
 		String msg = "Un joueur vient d'entrer dans l'End !";
 		RftdLogger.broadcast(Level.INFO, msg);
@@ -393,6 +401,20 @@ public class RftdController {
 				if(episode != 1) {
 					String msg = "Début de l'épisode " + episode;
 					RftdLogger.broadcast(Level.SUCCESS, msg);
+
+					int episodeAnnounce = plugin.getConfig().getInt("endPortalLocationEpisodeAnnounce");
+					if(episode >= episodeAnnounce
+							&& !endPortalLocationAnnounced
+							&& endPortalLocation != null) {
+						endPortalLocationAnnounced = true;
+
+						StringBuilder msgHelp = new StringBuilder();
+						msgHelp.append("Noobs : Un portail vers l'End se trouve en ");
+						msgHelp.append("x=" + endPortalLocation.getBlockX() + ", ");
+						msgHelp.append("y=" + endPortalLocation.getBlockY() + ", ");
+						msgHelp.append("z=" + endPortalLocation.getBlockZ());
+						RftdLogger.broadcast(Level.INFO, msgHelp.toString());
+					}
 				}
 			} else if(secondsLeft == -1) {
 				minutesLeft--;
