@@ -207,10 +207,10 @@ public class RftdController {
 		msg.append("[");
 		msg.append(ChatColor.DARK_PURPLE + "ENDERDRAGON");
 		msg.append(ChatColor.WHITE + "] ");
-		msg.append(ChatColor.DARK_RED + "Je vous attends au spawn...");
+		msg.append(ChatColor.DARK_RED + "Je vous attends où vous auriez dû me déposer...");
 		Bukkit.broadcastMessage(msg.toString());
 
-		String msgHelp = "Noobs : le spawn se trouve en x=" + eggLocation.getBlockX() + ", z=" + eggLocation.getBlockZ();
+		String msgHelp = "Noobs : Rendez-vous en x=" + eggLocation.getBlockX() + ", z=" + eggLocation.getBlockZ();
 		RftdLogger.broadcast(Level.INFO, msgHelp);
 
 		trappedEgg = true;
