@@ -8,16 +8,14 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import fr.kyriog.rftd.RftdController;
 import fr.kyriog.rftd.RftdHelper;
+import fr.kyriog.rftd.RftdLogger;
+import fr.kyriog.rftd.RftdLogger.Level;
 
 public class PlayerListener implements Listener {
 	private RftdController controller;
@@ -83,6 +81,28 @@ public class PlayerListener implements Listener {
 		if(controller.isPlaying() &&
 				e.getItemDrop().getItemStack().getType() == Material.EYE_OF_ENDER) {
 			e.setCancelled(true);
+		}
+	}
+
+	@EventHandler
+	public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent e) {
+		String[] command = e.getMessage().split(" ");
+		if("/give".equalsIgnoreCase(command[0])) {
+			Player sender = e.getPlayer();
+			String player = command[1];
+			String item = command[2].replace("minecraft:", "");
+			int qty = command.length >= 4 ? Integer.valueOf(command[3]) : 1;
+
+			StringBuilder msg = new StringBuilder();
+			msg.append(sender.getName() + " effectue un give de ");
+			if(qty > 1)
+				msg.append(qty + "x ");
+			msg.append(item + " à ");
+			if(player.equalsIgnoreCase(sender.getName()))
+				msg.append("lui-même");
+			else
+				msg.append(player);
+			RftdLogger.broadcast(Level.INFO, msg.toString());
 		}
 	}
 }
