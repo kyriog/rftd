@@ -42,7 +42,8 @@ public class EntityListener implements Listener {
 	@EventHandler
 	public void onItemDespawn(ItemDespawnEvent e) {
 		if(e.getEntity().getItemStack().getType() == Material.DRAGON_EGG
-				&& controller.isPlaying())
+				&& controller.isPlaying()
+				&& e.getEntity().getPickupDelay() != 32766) // Pickup delay set to a given item
 			controller.spawnTrappedEgg();
 	}
 
