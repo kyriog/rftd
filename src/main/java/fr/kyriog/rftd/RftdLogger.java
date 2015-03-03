@@ -57,7 +57,7 @@ public final class RftdLogger {
 		log(level, null, log);
 	}
 
-	private static String generateMessage(Level level, String log) {
+	public static String generateMessage(Level level, String log) {
 		StringBuilder messageBuilder = new StringBuilder();
 		messageBuilder.append("[");
 		messageBuilder.append(level.getColor() + "RFTD");

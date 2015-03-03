@@ -103,6 +103,13 @@ public class PlayerListener implements Listener {
 			else
 				msg.append(player);
 			RftdLogger.broadcast(Level.INFO, msg.toString());
+		} else if("/spawnpoint".equalsIgnoreCase(command[0])) {
+			e.setCancelled(true);
+
+			String error = "Vous ne pouvez pas utiliser /spawnpoint !";
+			e.getPlayer().sendMessage(RftdLogger.generateMessage(Level.ERROR, error));
+			String info = "Utilisez /setworldpoint en dehors d'une partie pour définir le point de spawn du monde.";
+			e.getPlayer().sendMessage(RftdLogger.generateMessage(Level.INFO, info));
 		}
 	}
 }
