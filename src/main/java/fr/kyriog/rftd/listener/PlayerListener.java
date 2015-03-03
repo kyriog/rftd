@@ -110,6 +110,13 @@ public class PlayerListener implements Listener {
 			e.getPlayer().sendMessage(RftdLogger.generateMessage(Level.ERROR, error));
 			String info = "Utilisez /setworldpoint en dehors d'une partie pour définir le point de spawn du monde.";
 			e.getPlayer().sendMessage(RftdLogger.generateMessage(Level.INFO, info));
+		} else if("/setworldspawn".equalsIgnoreCase(command[0])) {
+			if(controller.isPlaying()) {
+				e.setCancelled(true);
+				
+				String msg = "Vous ne pouvez pas redéfinir le point de spawn en cours de partie.";
+				e.getPlayer().sendMessage(RftdLogger.generateMessage(Level.ERROR, msg));
+			}
 		}
 	}
 }
