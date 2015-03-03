@@ -1,6 +1,5 @@
 package fr.kyriog.rftd;
 
-import fr.kyriog.rftd.command.SpawnpointExecutor;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -23,7 +22,6 @@ public class RftdPlugin extends JavaPlugin {
 		getCommand("egg").setExecutor(new EggExecutor(controller));
 		getCommand("start").setExecutor(new StartExecutor(controller));
 		getCommand("team").setExecutor(new TeamExecutor());
-		getCommand("spawnpoint").setExecutor(new SpawnpointExecutor(controller));
 
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(new BlockListener(controller), this);

@@ -7,7 +7,5 @@ commands:
     description: Easily manage teams for RFTD
   egg:
     description: Defines dragon egg deposit block
-  spawnpoint:
-    description: Set players spawn point
   start:
     description: Starts RFTD season
